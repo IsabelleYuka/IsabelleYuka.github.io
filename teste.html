@@ -1,31 +1,305 @@
-<!-- ARQUIVO: teste.html -->
-<section class="quiz-section">
-    <div class="quiz-container" id="quizContainer">
-        <!-- Tela Inicial -->
-        <div class="quiz-start" id="quizStart">
-            <h2><i class="fas fa-paw"></i> Teste de Compatibilidade</h2>
-            <p>Responda algumas perguntas e descubra qual pet combina mais com você!</p>
-            <button class="btn btn-quiz" id="startQuiz">Começar Teste</button>
-        </div>
+<!doctype html>
 
-        <!-- Perguntas (hidden inicialmente) -->
-        <div class="quiz-question hidden" id="question1">
-            <h3>1. Qual seu tipo de moradia?</h3>
-            <div class="quiz-options">
-                <button class="quiz-option" data-points="cachorro-pequeno">Apartamento pequeno</button>
-                <button class="quiz-option" data-points="gato">Apartamento grande/Casa</button>
-                <button class="quiz-option" data-points="cachorro-medio">Casa com quintal</button>
-            </div>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Teste de Compatibilidade - AdoptMe</title>
+  <style>
+    :root{ --bg:#e8f6ff; --card:#ffffff; --accent:#bfe9ff; --primary:#7cc8f2; --soft:#f7fbff; }
+    *{box-sizing:border-box;font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;}
+    body{background:var(--bg);margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh}
+    .wrap{width:960px;max-width:96%;padding:28px}
+    .card{background:var(--card);border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(18,52,86,0.08)}
+    .header{display:flex;align-items:center;gap:18px}
+    .title{font-size:34px;font-weight:700;color:#116099}
+    .puppy{width:84px;height:84px;border-radius:14px;overflow:hidden;flex-shrink:0}
+    .puppy img{width:100%;height:100%;object-fit:cover}
+    .center{display:flex;gap:20px;margin-top:18px}
+    .left{flex:1}
+    .right{width:360px}
+    .start-btn{background:linear-gradient(180deg,var(--primary),#58b1e6);border:none;color:white;padding:12px 18px;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer}
+    .qbox{background:var(--soft);padding:18px;border-radius:12px;margin-top:16px}
+    .question{font-weight:600;margin-bottom:12px}
+    .answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .answer{background:var(--accent);padding:10px;border-radius:10px;border:2px solid rgba(0,0,0,0.03);cursor:pointer;text-align:center}
+    .answer:hover{transform:translateY(-3px)}
+    .progress{height:12px;background:#e9f5fb;border-radius:8px;overflow:hidden;margin-top:12px}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,#7cc8f2,#a3e0ff);width:0%}
+    .result{display:none;padding:18px;margin-top:12px;border-radius:12px;background:linear-gradient(180deg,#ffffff,#f1fbff)}
+    .result-top{display:flex;gap:14px;align-items:center}
+    .result-top img{width:140px;height:120px;border-radius:12px;object-fit:cover}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:8px;text-align:left}
+    tr td:first-child{font-weight:600}
+    .bar{height:10px;background:#eef8ff;border-radius:8px;overflow:hidden}
+    .bar > i{height:100%;display:block;background:linear-gradient(90deg,#7cc8f2,#a3e0ff);width:0%}
+    .small{font-size:13px;color:#5b7a8f}
+    footer{margin-top:14px;font-size:13px;color:#5b7a8f}
+    @media(max-width:880px){.center{flex-direction:column}.right{width:100%}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="header">
+        <div class="puppy"><img src="https://source.unsplash.com/featured/?cute-puppy" alt="puppy" /></div>
+        <div>
+          <div class="title">Teste de Compatibilidade</div>
+          <div class="small">Descubra qual raça de cachorro combina mais com sua personalidade 🐾</div>
         </div>
-
-        <!-- Mais perguntas aqui... -->
-
-        <!-- Resultado (hidden inicialmente) -->
-        <div class="quiz-result hidden" id="quizResult">
-            <h3>Seu companheiro ideal é: <span id="petName"></span>!</h3>
-            <img id="petImage" src="" alt="Pet recomendado">
-            <p id="petDescription"></p>
-            <a href="adotar.html" class="btn btn-adotar">Ver pets disponíveis</a>
+        <div style="margin-left:auto">
+          <button id="start" class="start-btn">Start</button>
         </div>
+      </div><div class="center">
+    <div class="left">
+      <div id="quiz-area" class="qbox">
+        <div class="small">Clique em <strong>Start</strong> pra começar o teste</div>
+      </div>
     </div>
-</section>
+
+    <div class="right">
+      <div style="background:var(--soft);padding:14px;border-radius:12px">
+        <div style="font-weight:700">Progresso</div>
+        <div class="progress"><i id="prog"></i></div>
+        <div id="qcount" class="small" style="margin-top:8px">0 / 20</div>
+      </div>
+
+      <div id="result" class="result">
+        <div class="result-top">
+          <div>
+            <div id="best-title" style="font-weight:800;color:#116099">Você combina com ...</div>
+            <div id="best-desc" class="small" style="max-width:220px">--</div>
+          </div>
+          <img id="best-img" src="https://source.unsplash.com/featured/?dog" alt="best dog" />
+        </div>
+        <table id="table-result">
+          <thead><tr><th>Raça</th><th>Compatibilidade</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  <footer>Feito com amor para o AdoptMe 💙</footer>
+</div>
+
+  </div><script>
+  // Lista de raças que vamos usar (12 raças populares)
+  const breeds = [
+    {key:'Golden Retriever', short:'Golden', imgQuery:'golden-retriever', desc:'Carinhoso, leal e ótimo com família.'},
+    {key:'Labrador Retriever', short:'Labrador', imgQuery:'labrador-retriever', desc:'Ativo, brincalhão e muito amigável.'},
+    {key:'Poodle', short:'Poodle', imgQuery:'poodle', desc:'Inteligente, sociável e gosta de atenção.'},
+    {key:'Vira-lata', short:'Viralata', imgQuery:'mixed-breed-dog', desc:'Adaptável, afetuoso e cheio de personalidade.'},
+    {key:'Husky', short:'Husky', imgQuery:'siberian-husky', desc:'Aventureiro, energético e independente.'},
+    {key:'Pinscher', short:'Pinscher', imgQuery:'small-dog', desc:'Vigilante, confiante e bem enérgico.'},
+    {key:'Shih Tzu', short:'Shih Tzu', imgQuery:'shih-tzu', desc:'Calmo, carinhoso e gosta de colo.'},
+    {key:'Beagle', short:'Beagle', imgQuery:'beagle', desc:'Curioso, sociável e com muita energia.'},
+    {key:'Bulldog', short:'Bulldog', imgQuery:'english-bulldog', desc:'Tranquilo, teimoso e muito apegado.'},
+    {key:'Dachshund', short:'Dachshund', imgQuery:'dachshund', desc:'Corajoso, brincalhão e bem apegado.'},
+    {key:'Pastor Alemão', short:'Pastor', imgQuery:'german-shepherd', desc:'Protetor, inteligente e leal.'},
+    {key:'Corgi', short:'Corgi', imgQuery:'corgi', desc:'Brincalhão, afetuoso e muito esperto.'}
+  ];
+
+  // 20 perguntas — pensadas para refletir traços de personalidade
+  const questions = [
+    {q:'Você prefere atividades ao ar livre ou ficar em casa?', a:[
+      {t:'ao ar livre',score:{'Labrador':2,'Husky':2,'Beagle':2,'Golden Retriever':2}},
+      {t:'ficar em casa',score:{'Shih Tzu':2,'Bulldog':2,'Dachshund':1,'Vira-lata':1}}
+    ]},
+    {q:'Você se considera calmo(a) ou agitado(a)?', a:[
+      {t:'calmo(a)',score:{'Bulldog':2,'Shih Tzu':2,'Golden Retriever':1,'Pastor Alemão':1}},
+      {t:'agitado(a)',score:{'Husky':2,'Beagle':2,'Pinscher':2,'Labrador':1}}
+    ]},
+    {q:'Prefere rotina ou surpresas?', a:[
+      {t:'rotina',score:{'Shih Tzu':2,'Bulldog':2,'Dachshund':1}},
+      {t:'surpresas',score:{'Beagle':2,'Husky':2,'Vira-lata':2}}
+    ]},
+    {q:'Você gosta de treinar e aprender truques?', a:[
+      {t:'sim, adoro',score:{'Poodle':2,'Pastor Alemão':2,'Labrador':1,'Golden Retriever':1}},
+      {t:'não muito',score:{'Bulldog':2,'Shih Tzu':1,'Vira-lata':1}}
+    ]},
+    {q:'Quando recebe visitas você reage como?', a:[
+      {t:'amo receber e sou sociável',score:{'Golden Retriever':2,'Labrador':2,'Beagle':1,'Corgi':1}},
+      {t:'fico na minha',score:{'Bulldog':2,'Shih Tzu':2,'Dachshund':1}}
+    ]},
+    {q:'Quanto espaço você tem em casa?', a:[
+      {t:'muito espaço (casa/ quintal)',score:{'Labrador':2,'Husky':2,'Golden Retriever':2}},
+      {t:'pouco espaço (apartamento)',score:{'Shih Tzu':2,'Poodle':1,'Corgi':1,'Pinscher':1}}
+    ]},
+    {q:'Você tem crianças em casa?', a:[
+      {t:'sim',score:{'Golden Retriever':2,'Labrador':2,'Beagle':1,'Corgi':1}},
+      {t:'não',score:{'Pastor Alemão':2,'Husky':1,'Pinscher':1}}
+    ]},
+    {q:'Você quer um cão protetor?', a:[
+      {t:'sim',score:{'Pastor Alemão':2,'Rottweiler':0,'Bulldog':1}},
+      {t:'não',score:{'Poodle':2,'Golden Retriever':1,'Shih Tzu':1}}
+    ]},
+    {q:'Você gosta de desafios e aventuras?', a:[
+      {t:'sim',score:{'Husky':2,'Beagle':2,'Labrador':1}},
+      {t:'não',score:{'Bulldog':2,'Shih Tzu':2,'Poodle':1}}
+    ]},
+    {q:'Com que frequência você pode passear com o pet?', a:[
+      {t:'todo dia',score:{'Labrador':2,'Golden Retriever':2,'Beagle':1}},
+      {t:'poucas vezes por semana',score:{'Bulldog':2,'Shih Tzu':1,'Dachshund':1}}
+    ]},
+    {q:'Você prefere um cão de pelo longo ou curto?', a:[
+      {t:'longo',score:{'Golden Retriever':2,'Shih Tzu':2,'Poodle':1}},
+      {t:'curto',score:{'Pinscher':2,'Dachshund':1,'Pastor Alemão':1}}
+    ]},
+    {q:'Você gosta de cães que exigem muita escovação?', a:[
+      {t:'sim',score:{'Poodle':2,'Golden Retriever':2,'Shih Tzu':2}},
+      {t:'não',score:{'Bulldog':2,'Pinscher':2,'Dachshund':1}}
+    ]},
+    {q:'Você gosta de latidos frequentes?', a:[
+      {t:'sim',score:{'Pinscher':2,'Beagle':2,'Corgi':1}},
+      {t:'não',score:{'Shih Tzu':2,'Bulldog':2,'Golden Retriever':1}}
+    ]},
+    {q:'Em uma palavra: você é mais brincalhão(a) ou sério(a)?', a:[
+      {t:'brincalhão(a)',score:{'Labrador':2,'Beagle':2,'Golden Retriever':1}},
+      {t:'sério(a)',score:{'Pastor Alemão':2,'Bulldog':1,'Shih Tzu':1}}
+    ]},
+    {q:'Você se importa com aparência elegante do pet?', a:[
+      {t:'sim',score:{'Poodle':2,'Corgi':1,'Shih Tzu':1}},
+      {t:'não muito',score:{'Vira-lata':2,'Dachshund':1,'Labrador':1}}
+    ]},
+    {q:'Você tem tempo para brincar e treinar diariamente?', a:[
+      {t:'sim',score:{'Labrador':2,'Pastor Alemão':2,'Golden Retriever':1}},
+      {t:'prefiro algo mais tranquilo',score:{'Bulldog':2,'Shih Tzu':2,'Poodle':1}}
+    ]},
+    {q:'Como você lida com teimosia?', a:[
+      {t:'tenho paciência pra treinar',score:{'Pastor Alemão':2,'Poodle':1,'Golden Retriever':1}},
+      {t:'prefiro fácil e obediente',score:{'Labrador':2,'Shih Tzu':1,'Bulldog':1}}
+    ]},
+    {q:'Você se adapta bem a mudanças?', a:[
+      {t:'sim',score:{'Vira-lata':2,'Beagle':1,'Corgi':1}},
+      {t:'não',score:{'Bulldog':2,'Shih Tzu':1,'Dachshund':1}}
+    ]},
+    {q:'Você prefere um companheiro para exercícios ou para colo?', a:[
+      {t:'exercícios',score:{'Labrador':2,'Husky':2,'Beagle':1}},
+      {t:'colo',score:{'Shih Tzu':2,'Bulldog':2,'Poodle':1}}
+    ]}
+  ];
+
+  // normalize breed keys (we only used 12 breeds in our list)
+  const breedKeys = breeds.map(b=>b.key);
+
+  // state
+  let scores = {};
+  let current = 0;
+  let totalQuestions = questions.length;
+
+  function init(){
+    scores = {};
+    breedKeys.forEach(k=>scores[k]=0);
+    current = 0;
+    document.getElementById('prog').style.width='0%';
+    document.getElementById('qcount').innerText = 0 / ${totalQuestions};
+    document.getElementById('result').style.display='none';
+    renderStart();
+  }
+
+  function renderStart(){
+    const area = document.getElementById('quiz-area');
+    area.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:18px">Pronto pra descobrir seu match canino?</div>
+          <div class="small" style="margin-top:6px">Responda ${totalQuestions} perguntinhas rápidas ✨</div>
+        </div>
+        <div>
+          <button id="begin" class="start-btn">Começar</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('begin').addEventListener('click', ()=>{
+      current=0; breedKeys.forEach(k=>scores[k]=0); renderQuestion(); updateProgress();
+    });
+  }
+
+  function renderQuestion(){
+    const q = questions[current];
+    const area = document.getElementById('quiz-area');
+    let html = <div class="question">${current+1}. ${q.q}</div>;
+    html += <div class="answers">;
+    q.a.forEach((opt,idx)=>{
+      html += <div class="answer" data-idx="${idx}">${opt.t}</div>;
+    });
+    html += </div>;
+    area.innerHTML = html;
+    document.querySelectorAll('.answer').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const idx = Number(el.getAttribute('data-idx'));
+        applyAnswer(q.a[idx].score);
+        current++;
+        updateProgress();
+        if(current < totalQuestions) renderQuestion(); else showResult();
+      });
+    });
+  }
+
+  function applyAnswer(scoreObj){
+    // add points only for breeds we know
+    for(const k in scoreObj){
+      // find matching breed key by contains (some keys like 'Golden Retriever' match 'Golden')
+      const matching = breedKeys.find(b=>b.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(b.toLowerCase()));
+      if(matching) scores[matching] += scoreObj[k];
+      else {
+        // try direct key
+        if(scores[k] !== undefined) scores[k] += scoreObj[k];
+      }
+    }
+  }
+
+  function updateProgress(){
+    const perc = Math.round((current/totalQuestions)*100);
+    document.getElementById('prog').style.width = perc + '%';
+    document.getElementById('qcount').innerText = ${current} / ${totalQuestions};
+  }
+
+  function showResult(){
+    // compute total and percentages
+    const tbody = document.querySelector('#table-result tbody');
+    tbody.innerHTML = '';
+    // convert to array and sort
+    const arr = Object.keys(scores).map(k=>({k,v:scores[k]})).sort((a,b)=>b.v-a.v);
+    const total = arr.reduce((s,i)=>s+i.v,0) || 1;
+    arr.forEach(item=>{
+      const pct = Math.round((item.v/total)*100);
+      const br = breeds.find(b=>b.key===item.k);
+      const imgQuery = br ? br.imgQuery : 'dog';
+      tbody.innerHTML += `
+        <tr>
+          <td>${item.k}</td>
+          <td style="width:100%">
+            <div class="bar"><i style="width:${pct}%"></i></div>
+            <div class="small">${pct}%</div>
+          </td>
+        </tr>
+      `;
+    });
+
+    // best match
+    const best = arr[0];
+    const bestBreed = best.k;
+    const bestPct = Math.round((best.v/total)*100);
+    const bestInfo = breeds.find(b=>b.key===bestBreed) || {imgQuery:'dog',desc:'--'};
+    document.getElementById('best-title').innerText = Você combina mais com ${bestBreed} — ${bestPct}%;
+    document.getElementById('best-desc').innerText = bestInfo.desc;
+    // use unsplash dynamic image query to pull an image from the web (similar to Google images)
+    document.getElementById('best-img').src = https://source.unsplash.com/featured/?${encodeURIComponent(bestInfo.imgQuery)};
+
+    document.getElementById('result').style.display='block';
+    // scroll to result (in smaller screens)
+    document.getElementById('result').scrollIntoView({behavior:'smooth'});
+  }
+
+  document.getElementById('start').addEventListener('click', ()=>{
+    init();
+    document.getElementById('begin')?.focus();
+  });
+
+  // initialize on load
+  init();
+</script></body>
+</html>
