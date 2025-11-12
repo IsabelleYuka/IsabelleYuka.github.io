@@ -1,0 +1,31 @@
+<!-- ARQUIVO: teste.html -->
+<section class="quiz-section">
+    <div class="quiz-container" id="quizContainer">
+        <!-- Tela Inicial -->
+        <div class="quiz-start" id="quizStart">
+            <h2><i class="fas fa-paw"></i> Teste de Compatibilidade</h2>
+            <p>Responda algumas perguntas e descubra qual pet combina mais com você!</p>
+            <button class="btn btn-quiz" id="startQuiz">Começar Teste</button>
+        </div>
+
+        <!-- Perguntas (hidden inicialmente) -->
+        <div class="quiz-question hidden" id="question1">
+            <h3>1. Qual seu tipo de moradia?</h3>
+            <div class="quiz-options">
+                <button class="quiz-option" data-points="cachorro-pequeno">Apartamento pequeno</button>
+                <button class="quiz-option" data-points="gato">Apartamento grande/Casa</button>
+                <button class="quiz-option" data-points="cachorro-medio">Casa com quintal</button>
+            </div>
+        </div>
+
+        <!-- Mais perguntas aqui... -->
+
+        <!-- Resultado (hidden inicialmente) -->
+        <div class="quiz-result hidden" id="quizResult">
+            <h3>Seu companheiro ideal é: <span id="petName"></span>!</h3>
+            <img id="petImage" src="" alt="Pet recomendado">
+            <p id="petDescription"></p>
+            <a href="adotar.html" class="btn btn-adotar">Ver pets disponíveis</a>
+        </div>
+    </div>
+</section>

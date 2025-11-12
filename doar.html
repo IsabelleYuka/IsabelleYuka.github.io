@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdoptMe - Doar um Pet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header-colorido">
+        <div class="logo" onclick="window.location='index.html'">
+            <i class="fas fa-paw"></i>
+            <h1>AdoptMe</h1>
+        </div>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="adotar.html">Adotar</a>
+            <a href="blog.html">Blog</a>
+            <a href="doar.html">Doar um Pet</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="favoritos.html" class="favorites-link">
+                <i class="fas fa-heart"></i>
+                <span class="favorites-badge">0</span>
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="donate-section">
+            <div class="container">
+                <div class="donate-form-container">
+                    <h3><i class="fas fa-paw"></i> Formulário de Doação</h3>
+                    <form id="donateForm">
+                        <h4>Informações do Doador</h4>
+                        <div class="form-group">
+                            <label for="doadorNome">Seu Nome Completo</label>
+                            <input type="text" id="doadorNome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="doadorPhone">Telefone para Contato</label>
+                            <input type="tel" id="doadorPhone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="doadorEmail">E-mail</label>
+                            <input type="email" id="doadorEmail" required>
+                        </div>
+
+                        <h4>Informações do Pet</h4>
+                        <div class="form-group">
+                            <label for="petName">Nome do Pet</label>
+                            <input type="text" id="petName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="petTipo">Tipo de Animal</label>
+                            <select id="petTipo" required>
+                                <option value="">Selecione</option>
+                                <option value="dog">Cachorro</option>
+                                <option value="cat">Gato</option>
+                                <option value="small">Pequeno Animal</option>
+                                <option value="other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="petBreed">Raça</label>
+                            <input type="text" id="petBreed" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="petAge">Idade</label>
+                            <input type="text" id="petAge" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="petGender">Sexo</label>
+                            <select id="petGender" required>
+                                <option value="">Selecione</option>
+                                <option value="Macho">Macho</option>
+                                <option value="Fêmea">Fêmea</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="petSize">Tamanho</label>
+                            <select id="petSize" required>
+                                <option value="">Selecione</option>
+                                <option value="Pequeno">Pequeno</option>
+                                <option value="Médio">Médio</option>
+                                <option value="Grande">Grande</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+    <label for="petMedia">Fotos/Vídeos do Pet (Múltiplos)</label>
+    <input type="file" id="petMedia" accept="image/*, video/*" multiple required>
+    <small>Selecione uma ou mais fotos/vídeos do pet</small>
+</div>
+
+<!-- Preview das mídias selecionadas -->
+<div id="mediaGallery" class="media-gallery"></div>
+                        <div class="form-group">
+                            <label for="petDescricao">Descrição do Pet</label>
+                            <textarea id="petDescricao" rows="4" required placeholder="Descreva o comportamento, personalidade e quaisquer necessidades especiais"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Enviar Formulário</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-paw"></i>
+                <span>AdoptMe</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Início</a>
+                <a href="adotar.html">Adotar</a>
+                <a href="doar.html">Doar</a>
+                <a href="sobre.html">Sobre</a>
+                <a href="favoritos.html">Favoritos</a>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <p class="copyright">© 2025 AdoptMe. Todos os direitos reservados. <i class="fas fa-heart"></i></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

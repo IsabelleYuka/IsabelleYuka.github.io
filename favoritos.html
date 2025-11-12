@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdoptMe - Encontre seu pet ideal</title>
+    <title>AdoptMe - Pets Favoritos</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
@@ -27,21 +27,17 @@
         </nav>
     </header>
 
-    <section class="hero">
-        <div class="hero-text">
-            <h2>Encontre seu companheiro perfeito!</h2>
-            <p>Dê um lar cheio de amor para pets que precisam</p>
-            <div class="hero-buttons">
-                <a href="adotar.html" class="btn btn-adotar">Quero Adotar</a>
-                <a href="doar.html" class="btn btn-doar">Quero Doar</a>
+    <main>
+        <section class="pets-section">
+            <h2>Seus Pets Favoritos <i class="fas fa-heart"></i></h2>
+            <div class="pets-container" id="favoritesContainer"></div>
+            <div id="noFavorites" class="no-favorites">
+                <i class="fas fa-heart-broken"></i>
+                <p>Você ainda não favoritou nenhum pet!</p>
+                <a href="adotar.html" class="btn">Ver Pets para Adoção</a>
             </div>
-        </div>
-    </section>
-
-    <section class="featured-pets">
-        <h2>Pets em Destaque</h2>
-        <div class="pets-container" id="featuredPets"></div>
-    </section>
+        </section>
+    </main>
 
     <div id="petModal" class="modal"></div>
 
@@ -54,9 +50,7 @@
             <div class="footer-links">
                 <a href="index.html">Início</a>
                 <a href="adotar.html">Adotar</a>
-                <a href="blog.html">Blog</a>
                 <a href="doar.html">Doar</a>
-                <a href="sobre.html">Sobre</a>
                 <a href="favoritos.html">Favoritos</a>
             </div>
             <div class="social-links">
@@ -65,7 +59,7 @@
                 <a href="#"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
-        <p class="copyright">© 2025 AdoptMe. Todos os direitos reservados. <i class="fas fa-heart"></i></p>
+        <p class="copyright">© 2024 AdoptMe. Todos os direitos reservados. <i class="fas fa-heart"></i></p>
     </footer>
 
     <script src="script.js"></script>
