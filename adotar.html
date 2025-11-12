@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdoptMe - Adotar Pets</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header-colorido">
+        <div class="logo" onclick="window.location='index.html'">
+            <i class="fas fa-paw"></i>
+            <h1>AdoptMe</h1>
+        </div>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="adotar.html">Adotar</a>
+            <a href="blog.html">Blog</a>
+            <a href="doar.html">Doar um Pet</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="favoritos.html" class="favorites-link">
+                <i class="fas fa-heart"></i>
+                <span class="favorites-badge">0</span>
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ========== FILTROS ADICIONADOS ========== -->
+        <section class="filtros-section">
+            <div class="filtros-grid">
+                <div class="filtro-group">
+                    <label for="filtro-tipo">Tipo:</label>
+                    <select id="filtro-tipo">
+                        <option value="todos">Todos</option>
+                        <option value="dog">Cachorro</option>
+                        <option value="cat">Gato</option>
+                        <option value="small">Pequenos Animais</option>
+                    </select>
+                </div>
+
+                <div class="filtro-group">
+                    <label for="filtro-porte">Porte:</label>
+                    <select id="filtro-porte">
+                        <option value="todos">Todos</option>
+                        <option value="Pequeno">Pequeno</option>
+                        <option value="Médio">Médio</option>
+                        <option value="Grande">Grande</option>
+                    </select>
+                </div>
+
+                <div class="filtro-group">
+                    <label for="filtro-genero">Gênero:</label>
+                    <select id="filtro-genero">
+                        <option value="todos">Todos</option>
+                        <option value="Macho">Macho</option>
+                        <option value="Fêmea">Fêmea</option>
+                    </select>
+                </div>
+
+                <button id="aplicar-filtros" class="btn">Filtrar</button>
+            </div>
+        </section>
+
+        <!-- ========== TESTE DE COMPATIBILIDADE ========== -->
+        <section class="quiz-section">
+            <h2>🔍 Encontre seu pet ideal!</h2>
+            <button id="iniciarQuiz" class="btn btn-quiz">
+                <i class="fas fa-paw"></i> Fazer Teste
+            </button>
+            
+            <div id="quizModal" class="modal">
+                <div class="modal-content quiz-modal">
+                    <span class="close-quiz">&times;</span>
+                    <div id="quizContainer"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== LISTAGEM DE PETS ========== -->
+        <section class="pets-section">
+            <h2>Pets Disponíveis para Adoção</h2>
+            
+            <div class="pets-container" id="petsContainer"></div>
+        </section>
+    </main>
+
+    <div id="petModal" class="modal"></div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-paw"></i>
+                <span>AdoptMe</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Início</a>
+                <a href="adotar.html">Adotar</a>
+                <a href="doar.html">Doar</a>
+                <a href="favoritos.html">Favoritos</a>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <p class="copyright">© 2025 AdoptMe. Todos os direitos reservados. <i class="fas fa-heart"></i></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+document.addEventListener('DOMContentLoaded', function() {
+    const pets = JSON.parse(localStorage.getItem('petsParaAdocao')) || [];
+    
+    if (pets.length === 0) {
+        document.getElementById('featuredPets').innerHTML = 
+            '<p>Nenhum pet disponível no momento. Volte mais tarde!</p>';
+    } else {
+        // Renderiza cada pet na página
+        pets.forEach(pet => {
+            // Crie o HTML para exibir cada pet
+        });
+    }
+});
